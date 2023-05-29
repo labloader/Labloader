@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Labloader.Core.API.Features;
 using Labloader.Core.Events.EventArgs;
 
 namespace Labloader.Core.Events
@@ -21,20 +22,26 @@ namespace Labloader.Core.Events
             API.Features.Player.UpdateList();
             PlayerJoined?.Invoke(ev);
         }
-        
+
         public static event EventHandler<PlayerLeftEventArgs> PlayerLeft;
         internal static void OnPlayerLeft(PlayerLeftEventArgs ev)
         {
             API.Features.Player.UpdateList();
             PlayerLeft?.Invoke(ev);
         }
-        
+
         public static event EventHandler<PlayerDyingEventArgs> PlayerDying;
         internal static void OnPlayerDying(PlayerDyingEventArgs ev) => PlayerDying?.Invoke(ev);
-        
+
         public static event EventHandler<PlayerBannedEventArgs> PlayerBanned;
         internal static void OnPlayerBanned(PlayerBannedEventArgs ev) => PlayerBanned?.Invoke(ev);
-        
+        public static event EventHandler<PlayerKickedEventArgs> PlayerKicked;
+        internal static void OnPlayerKicked(PlayerKickedEventArgs ev)
+        {
+            Log.Info($"kick event\nuserid {ev.Player.UserID} \nPlayer {ev.Player.ToString()} \nreason {ev.Reason}");
+            PlayerKicked?.Invoke(ev);
+        }
+
         public static event EventHandler<PlayerExecutingCommandEventArgs> PlayerExecutingCommand;
         internal static void OnPlayerExecutingCommand(PlayerExecutingCommandEventArgs ev) => PlayerExecutingCommand?.Invoke(ev);
         
@@ -61,7 +68,14 @@ namespace Labloader.Core.Events
         
         public static event EventHandler<Scp914UpgradingItemEventArgs> Scp914UpgradingItem;
         internal static void OnScp914UpgradingItem(Scp914UpgradingItemEventArgs ev) => Scp914UpgradingItem?.Invoke(ev);
-        
+
+        public static event EventHandler<Scp914ActivatingEventArgs> Scp914Activating;
+        internal static void OnScp914Activating(Scp914ActivatingEventArgs ev)
+        {
+            Log.Debug($"{ev.Player.Name} activated SCP 914 (Knob set to {ev.KnobLevel.ToString()}");
+            Scp914Activating?.Invoke(ev);
+        }
+
         public static event EventHandler<Scp914UpgradingPlayerEventArgs> Scp914UpgradingPlayer;
         internal static void OnScp914UpgradingPlayer(Scp914UpgradingPlayerEventArgs ev) => Scp914UpgradingPlayer?.Invoke(ev);
     }

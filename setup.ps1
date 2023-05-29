@@ -1,5 +1,4 @@
-$extra_install_flags = ""
-# $extra_install_flags = "-beta unstable-beta"
+$extra_install_flags = "-beta unstable-beta"
 
 $work_dir = "./workspace/"
 $nuget_exe = $work_dir + "nuget.exe"

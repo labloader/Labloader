@@ -65,32 +65,12 @@ namespace Labloader.Core.Plugins
                 }
                 catch (Exception ex)
                 {
-                    Log.Error(string.Concat(new object[]
-                    {
-                        "Loading plugin ",
-                        fileName,
-                        " failed. (",
-                        index,
-                        "/",
-                        count,
-                        ")",
-                        Environment.NewLine,
-                        ex.ToString()
-                    }));
+                    Log.Warn($"Loading plugin {fileName} failed. ({index}/{count})\n{ex}");
                 }
             }
             else
             {
-                Log.Warn(string.Concat(new object[]
-                {
-                    "Plugin ",
-                    fileName,
-                    " is already loaded. (",
-                    index,
-                    "/",
-                    count,
-                    ")"
-                }));
+                Log.Warn($"Plugin {fileName} is already loaded. ({index}/{count})");
             }
         }
 
@@ -106,16 +86,7 @@ namespace Labloader.Core.Plugins
                 
                 plugin.Enable();
 
-                Log.Info(string.Concat(new object[]
-                {
-                    "Plugin ",
-                    plugin.File,
-                    " loaded. (",
-                    i+1,
-                    "/",
-                    TempPlugins.Count,
-                    ")"
-                }));
+                Log.Info($"Plugin {plugin.File} loaded. ({i + 1}/{TempPlugins.Count})");
             }
 
             TempPlugins.Clear();

@@ -27,20 +27,14 @@ namespace Labloader.Core.API.Features
         /// Shorthand for debug log. Includes assembly name for tag.
         /// </summary>
         /// <param name="message">The message/object to be logged.</param>
-        public static void Debug(object message) => Logger.Log("DEBUG", Assembly.GetCallingAssembly().GetName().Name, message?.ToString(), ConsoleColor.Gray);
+        public static void Debug(object message) => Logger.Log("DEBUG", Assembly.GetCallingAssembly().GetName().Name, message?.ToString(), ConsoleColor.Green);
     }
 
     internal static class Logger
     {
         internal static void Log(string level, string tag, string message, ConsoleColor color)
 		{
-			RConServer.SendLog(level, string.Concat(new string[]
-			{
-				"[",
-				tag,
-				"] ",
-				message
-			}), color);
+            RConServer.SendLog(level, $"[{tag}] {message}", color);
 		}
     }
 }

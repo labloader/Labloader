@@ -3,6 +3,9 @@ using UnityEngine.Events;
 
 namespace Labloader.Core.Events.BaseEventListeners.Player
 {
+    /// <summary>
+    /// Runs when a client connects to the server, passes a Player object OnPlayerJoined
+    /// </summary>
     public class PlayerJoined : SimpleListener<ushort>
     {
         public override UnityEvent<ushort> Event => NetworkManager.instance.serverClientJoined;
@@ -11,7 +14,7 @@ namespace Labloader.Core.Events.BaseEventListeners.Player
         {
             var apiPlayer = API.Features.Player.Get(id);
             if (!apiPlayer.IsValid) return;
-            Core.Events.Events.OnPlayerJoined(new PlayerJoinedEventArgs(apiPlayer));
+            Events.OnPlayerJoined(new PlayerJoinedEventArgs(apiPlayer));
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Labloader.Core.Events.BaseEventListeners.Player
         {
             var player = API.Features.Player.Get(id);
             if (id == 0) return;
-            Core.Events.Events.OnPlayerLeft(new PlayerLeftEventArgs(player));
+            Events.OnPlayerLeft(new PlayerLeftEventArgs(player));
         }
     }
 }

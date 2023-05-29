@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using JetBrains.Annotations;
 using Labloader.Core.API.Enums;
 using RiptideNetworking.Transports.RudpTransport;
@@ -8,6 +9,9 @@ using UnityEngine;
 
 namespace Labloader.Core.API.Features
 {
+    /// <summary>
+    /// Wrapper for base game player object.
+    /// </summary>
     public struct Player
     {
         #region STATIC
@@ -61,9 +65,9 @@ namespace Labloader.Core.API.Features
         public static Player Get(GameObject obj) => Get(obj.GetComponent<NetworkObject>().PlayerId.Value);
 
         /// <summary>
-        /// Gets the specified player by their ID (specific to this server/session).
+        /// Gets the specified player by their client ID (specific to this server/session).
         /// </summary>
-        /// <param name="id">The player's ID.</param>
+        /// <param name="id">The player's client ID.</param>
         /// <returns>The Player.</returns>
         public static Player Get(ushort id) => new Player(id);
         #endregion
@@ -103,7 +107,7 @@ namespace Labloader.Core.API.Features
         /// <summary>
         /// The user's client ID (unique and specific to this server/session).
         /// </summary>
-        public ushort ID => id;
+        public ushort ClientID => id;
 
         /// <summary>
         /// Gets the player's user ID (their ID through steam/discord/bbg), or null if they don't have one.
@@ -113,7 +117,7 @@ namespace Labloader.Core.API.Features
         {
             get
             {
-                var id = NetworkManager.instance.connectedPlayers[this.ID].authUserId;
+                var id = NetworkManager.instance.connectedPlayers[this.ClientID].authUserId;
                 return string.IsNullOrEmpty(id) ? null : id;
             }
         }
@@ -163,7 +167,7 @@ namespace Labloader.Core.API.Features
         /// <summary>
         /// Gets the player's IP address, or null if none exists.
         /// </summary>
-        public string IP => !((RudpServer)NetworkManager.instance.server.server).TryGetClient(this.ID, out var client) ? null : client.RemoteEndPoint.Address.ToString();
+        public IPAddress IP => !((RudpServer)NetworkManager.instance.server.server).TryGetClient(this.ClientID, out var client) ? null : client.RemoteEndPoint.Address;
 
         /// <summary>
         /// Gets the player's transform.
@@ -255,7 +259,7 @@ namespace Labloader.Core.API.Features
         /// <param name="reason">The reason that the player was banned.</param>
         public void Ban([NotNull] string reason)
         {
-            NetworkManager.instance.Ban(this.ID, reason);
+            NetworkManager.instance.Ban(this.ClientID, reason);
         }
         #endregion
     }
