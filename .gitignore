@@ -10,3 +10,4 @@ Labloader.sln.DotSettings.user
 *.nupkg
 LABRAT_DEPS
 workspace
+.vs
