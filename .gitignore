@@ -11,3 +11,4 @@ Labloader.sln.DotSettings.user
 LABRAT_DEPS
 workspace
 .vs
+*.suo
