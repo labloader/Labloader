@@ -12,7 +12,7 @@ namespace Labloader.Core.API.Features
     /// <summary>
     /// Wrapper for base game player object.
     /// </summary>
-    public struct Player
+    public class Player
     {
         #region STATIC
 
@@ -24,12 +24,12 @@ namespace Labloader.Core.API.Features
         }
 
         /// <summary>
-        /// Gets all of the players in the server.
+        /// Gets all of the <see cref="Player"/>s in the server.
         /// </summary>
         public static ReadOnlyCollection<Player> List => _list.AsReadOnly();
 
         /// <summary>
-        /// Maps unity object name (PlayerCharacter.name) to role enum.
+        /// Maps unity object name (<see cref="PlayerCharacter.CharacterName"/>) to role enum.
         /// </summary>
         private static readonly Dictionary<string, Role> RoleMap = new Dictionary<string, Role>()
         {
@@ -103,6 +103,11 @@ namespace Labloader.Core.API.Features
         /// Gets the player's GameObject.
         /// </summary>
         public GameObject GameObject => this.NetworkPlayerObject == null ? this.NetworkPlayer.gameObject : this.NetworkPlayerObject.gameObject;
+
+        /// <summary>
+        /// Gets the players <see cref="Inventory"/>
+        /// </summary>
+        public Inventory Inventory => Inventory.Get(NetworkPlayerObject.GetComponent<NetworkPlayerInventory>());
 
         /// <summary>
         /// The user's client ID (unique and specific to this server/session).

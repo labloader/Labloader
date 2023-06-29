@@ -2,6 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <LangVersion>latest</LangVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BBCD433D-F467-4CF9-ABB0-5DA516FECC33}</ProjectGuid>
@@ -151,6 +152,7 @@
     <Compile Include="API\Enums\Role.cs" />
     <Compile Include="API\Enums\Scp914Dial.cs" />
     <Compile Include="API\Enums\Team.cs" />
+    <Compile Include="API\Features\Inventory.cs" />
     <Compile Include="API\Features\Item.cs" />
     <Compile Include="API\Features\Log.cs" />
     <Compile Include="API\Features\Paths.cs" />
@@ -158,7 +160,6 @@
     <Compile Include="API\Features\Plugin.cs" />
     <Compile Include="API\Interfaces\IConfig.cs" />
     <Compile Include="API\Interfaces\IPlugin.cs" />
-    <Compile Include="API\Permissions\Patches\HasPermission.cs" />
     <Compile Include="Events\EventArgs\PlayerDamagingEventArgs.cs" />
     <Compile Include="Events\EventArgs\PlayerDroppingItemEventArgs.cs" />
     <Compile Include="Events\EventArgs\PlayerEnterPocketDimensionEventArgs.cs" />

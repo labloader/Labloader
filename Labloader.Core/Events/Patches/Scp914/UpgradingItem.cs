@@ -1,8 +1,13 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
 using Labloader.Core.Events.EventArgs;
 using RiptideNetworking;
 using System.Linq;
 using UnityEngine;
+using System.Reflection;
+using System.Reflection.Emit;
+using UnityEngine.Pool;
+using static HarmonyLib.AccessTools;
 
 namespace Labloader.Core.Events.Patches.Scp914
 {
@@ -10,43 +15,20 @@ namespace Labloader.Core.Events.Patches.Scp914
     [HarmonyPatch(typeof(SCP914), nameof(SCP914.switchOutItems))]
     internal class UpgradingItem
     {
-        internal static bool Prefix(SCP914 __instance)
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator)
         {
-            if (__instance.netObj.IsClient)
-            {
-                return false;
-            }
-            foreach (Grindable grindable in __instance.toGrind.Distinct<Grindable>().ToArray<Grindable>())
-            {
-                if (grindable != null)
-                {
-                    Debug.Log(grindable);
-                    Vector3 position = __instance.input.InverseTransformPoint(grindable.transform.position);
-                    position = __instance.output.TransformPoint(position);
-                    try
-                    {
-                        var ev = new Scp914UpgradingItemEventArgs();
-                        //Events.OnPlayerKicked(ev);
-                        GameObject grindedVersion = grindable.getGrindedVersion(__instance.currentLevel);
-                        if (grindedVersion != null)
-                        {
-                            UnityEngine.Object.Instantiate<GameObject>(grindedVersion, position, grindable.transform.rotation, grindable.transform.parent);
-                            UnityEngine.Object.Destroy(grindable.gameObject);
-                        }
-                        else
-                        {
-                            grindable.transform.position = position;
-                        }
-                    }
-                    catch
-                    {
-                        grindable.transform.position = position;
-                    }
-                }
-            }
-            __instance.toGrind.Clear();
+            List<CodeInstruction> newInstructions = instructions.ToList();
 
-            return false;
+            // IL_0031
+            // void [UnityEngine.CoreModule]UnityEngine.Debug::Log(object)
+            int index = newInstructions.FindIndex(instruction =>
+            instruction.opcode == OpCodes.Call && (MethodInfo)instruction.operand ==
+            Method(typeof(Debug), nameof(Debug.Log)));
+            // IL_0030
+            // ldloc.2
+            int offset = -1;
+
+            newInstructions.InsertRange(index+offset)
         }
     }
 }
