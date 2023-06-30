@@ -16,16 +16,27 @@ namespace Labloader.Core.Events.EventArgs
         /// <summary>
         /// The <see cref="ItemType"/> that will be created
         /// </summary>
-        public ItemType NewItemType { get; set; }
+        public Item NewItem { get; }
         
-        public Scp914Dial Dial { get; }
+        /// <summary>
+        /// The <see cref="SCP914.Level914"/> setting to be applied
+        /// </summary>
+        public SCP914.Level914 Dial { get; }
 
+        /// <summary>
+        /// Whether or not this event is allowed
+        /// </summary>
         public bool IsAllowed { get; set; } = true;
 
-        public Scp914UpgradingItemEventArgs(Item item, ItemType newType, Scp914Dial dial)
+        /// <summary>
+        /// The <see cref="System.EventArgs"/> for <see cref="SCP914.switchOutItems"/>
+        /// </summary>
+        /// <param name="grindable"></param>
+        /// <param name="dial"></param>
+        public Scp914UpgradingItemEventArgs(Grindable grindable, SCP914.Level914 dial)
         {
-            Item = item;
-            NewItemType = newType;
+            Item = Item.Get(grindable.gameObject.GetComponent<GameItem>());
+            NewItem = Item.Get(grindable.getGrindedVersion(dial).GetComponent<GameItem>());
             Dial = dial;
         }
     }

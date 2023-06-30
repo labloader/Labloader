@@ -7,13 +7,16 @@ namespace Labloader.Core.Events.EventArgs
         public Player Attacker { get; }
         
         public Player Target { get; }
-        
+
+        public string Message { get; set; }
+
         public bool IsAllowed { get; set; } = true;
-        
-        internal PlayerDyingEventArgs(Player attacker, Player target)
+
+        public PlayerDyingEventArgs(Player attacker, Player target, string message)
         {
             Attacker = attacker;
             Target = target;
+            Message = message;
         }
     }
 }

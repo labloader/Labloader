@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Labloader.Core.API.Enums;
 
 namespace Labloader.Core.API.Features
 {
@@ -37,6 +38,11 @@ namespace Labloader.Core.API.Features
         public string Name => Base.ItemName;
 
         /// <summary>
+        /// Gets the <see cref="ItemType"/> of the Item
+        /// </summary>
+        public ItemType Type => (ItemType)Base.itemType;
+
+        /// <summary>
         /// Gets the <see cref="GameObject"/> of the Item
         /// </summary>
         public GameObject GameObject => Base.owner;
@@ -55,6 +61,15 @@ namespace Labloader.Core.API.Features
         /// Indicates if this Item can be picked up
         /// </summary>
         public bool IsPickup => Base.IsPickup;
+
+        /// <summary>
+        /// Creates a new instance of an <see cref="Item"/> by creating a new <see cref="GameItem"/>
+        /// </summary>
+        /// <returns>New <see cref="Item"/> instance</returns>
+        public static Item Create()
+        {
+            return new Item(new GameItem());
+        }
 
         /// <summary>
         /// Gets an existing <see cref="Item"/>. If it doesn't exist, creates a new one.

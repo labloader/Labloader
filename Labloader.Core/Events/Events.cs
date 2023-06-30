@@ -36,11 +36,7 @@ namespace Labloader.Core.Events
         public static event EventHandler<PlayerBannedEventArgs> PlayerBanned;
         internal static void OnPlayerBanned(PlayerBannedEventArgs ev) => PlayerBanned?.Invoke(ev);
         public static event EventHandler<PlayerKickedEventArgs> PlayerKicked;
-        internal static void OnPlayerKicked(PlayerKickedEventArgs ev)
-        {
-            Log.Info($"kick event\nuserid {ev.Player.UserID} \nPlayer {ev.Player.ToString()} \nreason {ev.Reason}");
-            PlayerKicked?.Invoke(ev);
-        }
+        internal static void OnPlayerKicked(PlayerKickedEventArgs ev) => PlayerKicked?.Invoke(ev);
 
         public static event EventHandler<PlayerExecutingCommandEventArgs> PlayerExecutingCommand;
         internal static void OnPlayerExecutingCommand(PlayerExecutingCommandEventArgs ev) => PlayerExecutingCommand?.Invoke(ev);
@@ -66,14 +62,20 @@ namespace Labloader.Core.Events
         public static event EventHandler<PlayerExitPocketDimensionEventArgs> PlayerExitPocketDimension;
         internal static void OnPlayerExitPocketDimension(PlayerExitPocketDimensionEventArgs ev) => PlayerExitPocketDimension?.Invoke(ev);
         
-        public static event EventHandler<Scp914UpgradingItemEventArgs> Scp914UpgradingItem;
-        internal static void OnScp914UpgradingItem(Scp914UpgradingItemEventArgs ev) => Scp914UpgradingItem?.Invoke(ev);
-
         public static event EventHandler<Scp914ActivatingEventArgs> Scp914Activating;
         internal static void OnScp914Activating(Scp914ActivatingEventArgs ev)
         {
-            Log.Debug($"{ev.Player.Name} activated SCP 914 (Knob set to {ev.KnobLevel.ToString()}");
+            Log.Debug($"{ev.Player.Name} activated SCP 914 (Knob set to {ev.KnobLevel})");
             Scp914Activating?.Invoke(ev);
+        }
+
+        public static event EventHandler<Scp914UpgradingItemEventArgs> Scp914UpgradingItem;
+        internal static void OnScp914UpgradingItem(Scp914UpgradingItemEventArgs ev)
+        {
+            UnityEngine.Object.Instantiate(grindedVersion, position, grindable.transform.rotation, grindable.transform.parent);
+            ev.NewItem = Item.Get(new GameItem());
+            Log.Debug($"SCP914: {ev.Item.Name} is going to be upgraded to {ev.NewItem.Name} (Dial Setting: {ev.Dial})");
+            Scp914UpgradingItem?.Invoke(ev);
         }
 
         public static event EventHandler<Scp914UpgradingPlayerEventArgs> Scp914UpgradingPlayer;
